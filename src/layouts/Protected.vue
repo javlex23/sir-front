@@ -29,18 +29,25 @@ export default {
     'sidebar-is' : SidebarIS
   },
   methods: { 
-      ...mapActions('session', ['init', 'menu']),
-      initialize () {
-        this.loading = true
-        let object = []
+    ...mapActions('session', ['init', 'menu']),
+    initialize () {
+      this.loading = true
+      let object = []
+      if(this.jwt){
         this.init(this.jwt).then((res) => {
             console.log(res)
         })
-        .catch(err => { console.log(err) })
+        .catch(err => { 
+          console.log(err) 
+          this.$router.push('/login')
+        })
+      }else{
+        this.$router.push('/login')
       }
+    }
   },
   computed: {
-      ...mapGetters('user', ['jwt'])
+    ...mapGetters('user', ['jwt'])
   },
   beforeMount(){
     this.initialize()

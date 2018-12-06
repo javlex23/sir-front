@@ -11,8 +11,6 @@
         <b-nav-item class="px-3" to="/dashboard"><span class="is-white">Dashboard</span></b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
-        <DefaultHeaderDropdownAlert class="d-md-down-none"/>
-        <DefaultHeaderDropdownModule class="d-md-down-none"/>
         <DefaultHeaderDropdownAccnt/>
       </b-navbar-nav>
       <!--<AsideToggler class="d-none d-lg-block" />-->

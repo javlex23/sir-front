@@ -21,25 +21,25 @@
                         i(class="fa fa-search") 
                         span.is-btn-2 &nbsp;&nbsp;Buscar
         div.space
-    b-card(text-variant = "white" header-tag = "header" ).is-card.top-10.d-sm-down-none
-        h6(slot = "header" class = "mb-0") Búsqueda de póliza
-        b-row
-            b-col(lg = "2" md = "2" sm = "2" xs = "12")
-                b-form-group(label="Póliza" label-for="npoliza").mb-0.is-text
-                b-form-input#npoliza(type ='number'  required = '' placeholder='Número de póliza' size = "sm" v-model = "bpoliza")
-            b-col(lg = "5" md = "5" sm = "5" xs = "12")
-                b-form-group(label="Cliente" label-for="cliente").mb-0.is-text
-                    b-input-group
-                        b-form-input#cliente(type = 'text' disabled required = '' placeholder = 'Datos de cliente' size = "sm" v-model = "bcliente")
-                        b-input-group-append
-                          b-button.is-btn-2(@click = "showModalClients" size = "sm") 
+    
+    h6(slot = "header" class = "mb-0") Búsqueda de póliza
+    b-row(class = "is-panel").d-sm-down-none
+        b-col(lg = "2" md = "2" sm = "2" xs = "12")
+            b-form-group(label="Póliza" label-for="npoliza").mb-0.is-text
+            b-form-input#npoliza(type ='number'  required = '' placeholder='Número de póliza' size = "sm" v-model = "bpoliza")
+        b-col(lg = "5" md = "5" sm = "5" xs = "12")
+            b-form-group(label="Cliente" label-for="cliente").mb-0.is-text
+                b-input-group
+                    b-form-input#cliente(type = 'text' disabled required = '' placeholder = 'Datos de cliente' size = "sm" v-model = "bcliente")
+                    b-input-group-append
+                        b-button(@click = "showModalClients" size = "sm") 
                             span.bold ...
-            b-col(lg = "3" md = "3" sm = "3" xs = "12")
-                b-form-group(label="btn" label-for="cliente").mb-0.is-small
-                    b-button.is-btn-2(@click = "loadData" size = "sm")
-                        i(class="fa fa-search") 
-                        span.is-btn-2 &nbsp;&nbsp;Buscar
-    div#historial(v-show = "historial")
+        b-col(lg = "3" md = "3" sm = "3" xs = "12")
+            b-form-group(label = "btn" label-for = "cliente").mb-0.is-small.is-transparent
+                b-button.is-btn-2( size = "sm" @click = "loadData")
+                    i(class = "fa fa-search") 
+                    span.is-btn-2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Buscar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    div#historial(v-show = "historial" class = "my-4")
         div.space.d-lg-none.d-md-none
         div.space.d-lg-none.d-md-none
         div.space.d-lg-none.d-md-none
@@ -62,7 +62,7 @@
             div.space
             div.space
             div.space
-    div#revision(v-show = "revisar")
+    div#revision(v-show = "revisar" class = "my-4 is-panel-data")
         div.space.d-lg-none.d-md-none
         div.space.d-lg-none.d-md-none
         div.space.d-lg-none.d-md-none
@@ -73,24 +73,27 @@
                 span(v-show = "tituloHistorial") ( Póliza: {{tituloHistorialPoliza}})
         div.space            
         div.space
-            b-row
+            b-row.my-1
                 b-col(lg = "2" md = "2" sm = "2" xs = "12")
                     label Vía de Cobro
                 b-col(lg = "4" md = "4" sm = "4" xs = "12")
                     b-form-select(v-model = "selectedViaCobro" :options = "lstViaCobros" class="mb-3" size="sm")
-            div#tarjeta(v-show = "esTarjeta")
-                panel-tarjeta(:listOperadores = "lstOperadores" :listMonedas = "lstMonedas" :lstMonedaOperador = "lstMonedaOperador"
-                :selectOperador = "selectedOperador" :selectMoneda = "selectedMoneda" :nroTarjeta = "tarjetaOn" 
-                :vencimientoTarjeta = "vencimientoOn" :maskTarjeta = "tarjetaValidacion.mascara" :validaTarjeta = "tarjetaValidacion")
-            div#cuenta(v-show = "esCuenta")
-                panel-cuenta(:listBancos = "lstBancos" :listTipoCuentas = "lstTipoCuentas" :listMonedas = "lstMonedas" 
-                :selectBanco = "selectedBanco" :selectTipoCuenta = "selectedTipoCuenta" :selectMoneda = "selectedMoneda" 
-                :cuentaActiva = "cuentaOn" :maskCuenta = "cuentaValidacion.formato" :validaCuenta = "cuentaValidacion")
-            b-row.space
+            
+            b-row
+                b-col(lg = "12" md = "12" sm = "12" xs = "12")
+                    div#tarjeta(v-show = "esTarjeta")
+                        panel-tarjeta(:listOperadores = "lstOperadores" :listMonedas = "lstMonedas" :lstMonedaOperador = "lstMonedaOperador"
+                        :selectOperador = "selectedOperador" :selectMoneda = "selectedMoneda" :nroTarjeta = "tarjetaOn" 
+                        :vencimientoTarjeta = "vencimientoOn" :maskTarjeta = "tarjetaValidacion.mascara" :validaTarjeta = "tarjetaValidacion")
+                    div#cuenta(v-show = "esCuenta")
+                        panel-cuenta(:listBancos = "lstBancos" :listTipoCuentas = "lstTipoCuentas" :listMonedas = "lstMonedas" 
+                        :selectBanco = "selectedBanco" :selectTipoCuenta = "selectedTipoCuenta" :selectMoneda = "selectedMoneda" 
+                        :cuentaActiva = "cuentaOn" :maskCuenta = "cuentaValidacion.formato" :validaCuenta = "cuentaValidacion")
+            b-row(class = "my-4")
                 b-col
-                    b-button(variant = "danger" size = "sm" class = "mr-1"  @click = "changeOption") Rechazar
-                    b-button(variant = "success" size = "sm" class = "mr-1"  @click = "changeOption") Guardar
-                    b-button(variant = "secondary" size = "sm" class = "mr-1"  @click = "showHistory") Regresar
+                    b-button(variant = "danger" size = "sm" class = "mr-1"  @click = "changeOption") &nbsp;&nbsp;Rechazar&nbsp;&nbsp;
+                    b-button(variant = "success" size = "sm" class = "mr-1"  @click = "changeOption" class = "ml-2") &nbsp;&nbsp;Guardar&nbsp;&nbsp;
+                    b-button(variant = "secondary" size = "sm" class = "mr-1"  @click = "showHistory" class = "ml-2") &nbsp;&nbsp;Regresar&nbsp;&nbsp;
     b-modal(size = "lg" ref="modalClient" hide-footer title="Búsqueda de clientes")
         div(class="d-block text-center")
             b-row

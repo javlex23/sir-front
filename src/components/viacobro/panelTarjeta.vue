@@ -23,7 +23,7 @@
                 b-input-group
                     b-input-group-prepend
                         b-input-group-text
-                            i(class="fa fa-calendar")
+                            i(class="fa fa-calendar") &nbsp;
                     b-form-input#npoliza(type='text'  required='' size = "sm" v-mask = "'##/##'" v-model = "vencimiento"
                         aria-describedby = "inputLiveFeedback2" :state = "this.formatStateVencimiento"  @keyup.native = "keyVencimiento")
                     b-form-invalid-feedback(id = "inputLiveFeedback2") {{mensajeInvalidezVencimiento}}
