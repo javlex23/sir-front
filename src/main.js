@@ -56,12 +56,7 @@ VueClipboard.config.autoSetContainer = true
 
 Vue.config.productionTip = false
 
-Vue.http.headers.common['Access-Control-Allow-Origin'] = 'http://10.21.51.126:8082'
-
 axios.defaults.baseURL = process.env.API_URL
-axios.defaults.headers.get['Accept'] = 'application/json'
-axios.defaults.headers.common['Content-Type'] = 'application/json'
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://localhost:8082'
 
 /* eslint-disable no-new */
 new Vue({

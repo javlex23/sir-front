@@ -6,11 +6,12 @@
  * user module.
  */
 import axios from 'axios'
+import urls from '../../../_url'
 
 export default {
   callApiGetInicializaBin ({ commit, dispatch }, request) {
     return new Promise((resolve, reject) => {
-      let url = 'http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/configuracion/bines/inicializaciones'
+      let url = urls.data().server + '/sir-admin/api/v1/afiliaciones/configuraciones/bines/inicializaciones'
       axios.get(url, 
       {
         headers: {
@@ -32,7 +33,14 @@ export default {
   },
   callApiSaveBin ({ commit, dispatch }, item) {
     return new Promise((resolve, reject) => {
-      axios.post('http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/configuracion/bines', item)
+      axios.post(urls.data().server + '/sir-admin/api/v1/afiliaciones/configuraciones/bines', item,
+      {
+        headers: {
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + item.token 
+        },
+        data: {}
+      })
         .then(res => {
           if (res) {
             resolve(res)
@@ -47,7 +55,7 @@ export default {
   },
   callApiSaveEmisor ({ commit, dispatch }, item) {
     return new Promise((resolve, reject) => {
-      axios.post('http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/configuracion/bines/emisores', item)
+      axios.post(urls.data().server + '/sir-admin/api/v1/afiliaciones/configuraciones/bines/emisores', item)
         .then(res => {
           if (res) {
             resolve(res)
@@ -62,7 +70,7 @@ export default {
   },
   callApiGetInicializaCuenta ({ commit, dispatch }, request) {
     return new Promise((resolve, reject) => {
-      let url = 'http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/configuracion/cuenta/inicializaciones'
+      let url = urls.data().server + '/sir-admin/api/v1/afiliaciones/configuraciones/cuentas/inicializaciones'
       axios.get(url, 
       {
         headers: {
@@ -84,7 +92,7 @@ export default {
   },
   callApiSaveCuenta ({ commit, dispatch }, item) {
     return new Promise((resolve, reject) => {
-      axios.post('http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/configuracion/cuenta/banco', item)
+      axios.post(urls.data().server + '/sir-admin/api/v1/afiliaciones/configuraciones/cuenta/banco', item)
         .then(res => {
           if (res) {
             resolve(res)
@@ -99,7 +107,7 @@ export default {
   },
   callApiSaveTarjeta ({ commit, dispatch }, item) {
     return new Promise((resolve, reject) => {
-      axios.post('http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/configuracion/cuenta/tarjeta', item)
+      axios.post(urls.data().server + '/sir-admin/api/v1/afiliaciones/configuraciones/cuenta/tarjeta', item)
         .then(res => {
           if (res) {
             resolve(res)
@@ -114,7 +122,7 @@ export default {
   },
   callApiGetInicializaFrecuencia ({ commit, dispatch }, request) {
     return new Promise((resolve, reject) => {
-      let url = 'http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/configuracion/frecuencia/inicializaciones'
+      let url = urls.data().server + '/sir-admin/api/v1/afiliaciones/configuraciones/frecuencia/inicializaciones'
       axios.get(url, 
       {
         headers: {
@@ -136,7 +144,7 @@ export default {
   },
   callApiSaveFrecuencia ({ commit, dispatch }, item) {
     return new Promise((resolve, reject) => {
-      axios.post('http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/configuracion/frecuencia', item)
+      axios.post(urls.data().server + '/sir-admin/api/v1/afiliaciones/configuraciones/frecuencia', item)
         .then(res => {
           if (res) {
             resolve(res)
@@ -151,7 +159,7 @@ export default {
   },
   callApiGetInicializaCodigoError ({ commit, dispatch }, request) {
     return new Promise((resolve, reject) => {
-      let url = 'http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/configuracion/codigoError/inicializaciones'
+      let url = urls.data().server + '/sir-admin/api/v1/afiliaciones/configuraciones/codigoError/inicializaciones'
       axios.get(url, 
       {
         headers: {
@@ -173,7 +181,7 @@ export default {
   },
   callApiSaveCodigoError ({ commit, dispatch }, item) {
     return new Promise((resolve, reject) => {
-      axios.post('http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/configuracion/codigoError', item)
+      axios.post(urls.data().server + '/sir-admin/api/v1/afiliaciones/configuraciones/codigoError', item)
         .then(res => {
           if (res) {
             resolve(res)
@@ -188,7 +196,7 @@ export default {
   },
   callApiGetInicializaCorreo ({ commit, dispatch }, request) {
     return new Promise((resolve, reject) => {
-      let url = 'http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/configuracion/correo/inicializaciones'
+      let url = urls.data().server + '/sir-admin/api/v1/afiliaciones/configuraciones/correo/inicializaciones'
       axios.get(url, 
       {
         headers: {
@@ -210,7 +218,7 @@ export default {
   },
   callApiSaveCorreo ({ commit, dispatch }, item) {
     return new Promise((resolve, reject) => {
-      axios.post('http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/configuracion/correo', item)
+      axios.post(urls.data().server + '/sir-admin/api/v1/afiliaciones/configuraciones/correo', item)
         .then(res => {
           if (res) {
             resolve(res)

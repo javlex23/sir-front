@@ -11,6 +11,27 @@
                             option(v-for = "option in group" :value = "option.value") {{ option.text }}
             b-row(v-show = "esBanco && !panel")
                 b-col(lg = "2" md = "2" sm = "2" xs = "12" class = "my-1")
+                    label Tipos de Cuenta
+                b-col(lg = "3" md = "3" sm = "3" xs = "12" class = "my-1")
+                    b-input-group(size = "sm" class = "mb-1")
+                        b-input-group-prepend(is-text)
+                            b-form-checkbox Corriente
+                        b-form-input
+                    b-input-group(size = "sm" class = "mb-1")
+                        b-input-group-prepend(is-text)
+                            b-form-checkbox Ahorros&nbsp;&nbsp;
+                        b-form-input
+                    
+
+                    //b-form-group(size = "sm" class = "my-1 ml-1")
+                        b-form-checkbox-group( id="checkboxes" stacked name="flavour" v-model="tipoCuenta" :options="listTiposCuenta")
+            //b-row(v-show = "esBanco && !panel")
+                b-col(lg = "2" md = "2" sm = "2" xs = "12" class = "my-1")
+                b-col(class = "mb-1")
+                    b-button(size = "sm")
+                        i(class = "fa fa-plus")
+            //b-row(v-show = "esBanco && !panel")
+                b-col(lg = "2" md = "2" sm = "2" xs = "12" class = "my-1")
                     label Tipo de Cuenta
                 b-col(lg = "3" md = "3" sm = "3" xs = "12" class = "my-1")
                     b-input-group(size = "sm")
@@ -27,7 +48,7 @@
                 b-col(sm = "3" md = "3" lg = "3" xs = "12" class = "my-1")
                     b-input-group(size = "sm")
                         b-form-input(size = "sm" ref="ctipocuenta" placeholder = "Digite nuevo tipo de cuenta" v-model = "ctipocuenta")
-            b-row(v-show = "esBanco")
+            //b-row(v-show = "esBanco")
                 b-col(lg = "2" md = "2" sm = "2" xs = "12" class = "my-1")
                     label Cuenta Bancaria (Formato)
                 b-col(lg = "3" md = "3" sm = "3" xs = "12" class = "my-1")
@@ -37,7 +58,7 @@
                      :rows = "1"
                      :max-rows = "4"
                      size = "sm")
-            b-row(v-show = "esOperador && !panel")
+            //b-row(v-show = "esOperador && !panel")
                 b-col(lg = "2" md = "2" sm = "2" xs = "12" class = "my-1")
                     label Tarjeta (Formatos)
                 b-col(lg = "3" md = "3" sm = "3" xs = "12" class = "my-1")
@@ -78,7 +99,7 @@ export default {
             },
             tipoCuenta: null,
             tipoMoneda: [null],
-            listTipoCuentas: [],
+            listTiposCuenta: [],
             formatoCuenta: '',
             formatoTarjeta: '',
             panel: false,
@@ -101,17 +122,24 @@ export default {
             req.token = this.jwt
             req.usuario = this.matricula
             this.callApiGetInicializaCuenta(req).then((res) => {
+                console.log('MEDIOS PAGO: ')
+                console.log(res)
                 if(res.data.codigoRespuesta == '01'){
                     this.data = res.data.mediosPago
                     let infoComboMoneda = []
+                    let infoCheckTipoCuentas = []
                     res.data.monedas.forEach(function (obj) {
                         infoComboMoneda.push({'value' : obj.codigo, 'text' : obj.descripcion})
                     })
+                    res.data.tiposCuenta.forEach(function (obj) {
+                        infoCheckTipoCuentas.push({'value' : obj.codigo, 'text' : obj.descripcion})
+                    })
                     this.listTipoMonedas = infoComboMoneda
+                    this.listTiposCuenta = infoCheckTipoCuentas
                     this.loadOperadores()
                 }
             })
-            .catch(err => { console.log(err) })    
+            .catch(err => { console.log(err) })
         },
         loadOperadores(){
             let infoComboBanco = []

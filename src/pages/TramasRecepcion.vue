@@ -68,7 +68,7 @@
                 b-col(sm = "6" md = "6" lg = "6" xs = "12")
                     b-link.link-reference(@click = "descargarPlantilla") 
                         i(class = "fa fa-arrow-alt-circle-down")
-                        span  Descargar Plantilla Rechazados
+                        span Descargar Plantilla Rechazados
             b-row
                 b-col(sm = "6" md = "6" lg = "6" xs = "12")
                     //vue-dropzone(ref = "myVueDropzone" id = "dropzone" :options = "dropzoneOptions" )
@@ -156,6 +156,8 @@ import Datepicker from 'vuejs-datepicker'
 import {en, es} from 'vuejs-datepicker/dist/locale'
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+import urls from '../_url'
+
 export default {
     data() {
         return {
@@ -357,8 +359,7 @@ export default {
         vueDropzone: vue2Dropzone
     },
     methods: {
-        ...mapActions('viaCobroModifica', ['callApiGetInitialize']),
-        ...mapActions('gestionTrama', ['callApiGetIncializaRecepcionTrama', 'callApiGetListaRecepcionTrama', 'callApiGetDetalleTramaRecepcion']),
+        ...mapActions('gestionTrama', ['callApiGetIncializaRecepcionTrama', 'callApiGetListaRecepcionTrama', 'callApiGetDetalleTramaRecepcion', 'callApiGetDownloadPlantillaRecepcion']),
         formatDates(dateOne, dateTwo) {
             this.date = this.dateTwo
             let formattedDates = ''
@@ -379,6 +380,7 @@ export default {
             req.token = this.jwt
             req.usuario = this.matricula
             this.callApiGetIncializaRecepcionTrama(req).then((res) => {
+                console.log(res.data)
                 let infoComboBanco = []
                 let infoComboOperador = []
                 if(res.data.codigoRespuesta == '01'){
@@ -445,10 +447,18 @@ export default {
 
         },
         descargarPlantilla(){
-            link = document.createElement('a')
-            link.setAttribute('href', 'http://sir-afiliaciones-2.getsandbox.com/sir-admin/api/v1/afiliaciones/recepciones/plantillas/download/rechazos.xlt')
-            link.setAttribute('download', 'rechazos.xlt')
-            link.click()
+            let req = {}
+            req.token = this.jwt
+            req.usuario = this.matricula
+            this.callApiGetDownloadPlantillaRecepcion(req).then((res) => {
+                //console.log(res)
+            })
+            .catch(err => { console.log(err) })
+
+            /*let link = document.createElement('a')
+            link.setAttribute('href', urls.data().server + '/sir-admin/api/v1/afiliaciones/recepciones/plantillas/download/rechazos.xls')
+            link.setAttribute('download', 'rechazos.xls')
+            link.click()*/
         },
         descargarTrama(){
             let args = {

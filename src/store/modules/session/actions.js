@@ -6,13 +6,13 @@
  * user module.
  */
 import axios from 'axios'
-import qs from 'qs'
+import urls from '../../../_url'
 
 export default {
   init ({ commit, dispatch }, item) {
     return new Promise((resolve, reject) => {
       //axios.defaults.headers.common['Authorization'] = item
-      axios.get('http://xmax-sgd.getsandbox.com/sir-admin/api/v1/admin/sir/inicializaciones', {
+      axios.get(urls.data().server + '/sir-admin/api/v1/admin/sir/inicializaciones', {
         headers: {
           Accept: 'application/json',
           Authorization: 'Bearer ' + item //the token is a variable which holds the token

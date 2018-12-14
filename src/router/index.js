@@ -67,7 +67,7 @@ export default new Router({
           component: Cuentas
         },
         {
-          path: '/admin/configuracion/afiliacion/correo',
+          path: '/admin/configuracion/afiliacion/correos',
           name: '/ Afiliacion / Configuracion / Correos',
           component: Correo
         },

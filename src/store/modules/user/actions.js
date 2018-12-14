@@ -6,11 +6,13 @@
  * user module.
  */
 import axios from 'axios'
+import urls from '../../../_url'
 
 export default {
   signIn ({ commit, dispatch }, item) {
+    console.log('SERVER: ' + urls.data().server)
     return new Promise((resolve, reject) => {
-      axios.post('http://xmax-sgd.getsandbox.com/sir-admin/api/v1/usuarios/ingresos', item)
+      axios.post(urls.data().server + '/sir-admin/api/v1/usuarios/ingresos', item)
         .then(res => {
           if (res) {
             commit('setJWT', res.data.jwtToken)

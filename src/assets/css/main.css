@@ -567,3 +567,9 @@ is-background {
     padding-left: 15px;
     padding-right: 15px;
 }
+.is-detalle{
+    font-weight: 600;
+    color: #10445e;
+    padding-left: 30px;
+    font-size: 90%;
+}

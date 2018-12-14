@@ -6,11 +6,12 @@
  * user module.
  */
 import axios from 'axios'
+import urls from '../../../../_url'
 
 export default {
     callApiGetHistory ({ commit, dispatch }, request) {
     return new Promise((resolve, reject) => {
-      let url = 'http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/modificaciones/historicos/{numeroPoliza}'
+      let url = urls.data().server + '/sir-admin/api/v1/afiliaciones/modificaciones/historicos/{numeroPoliza}'
       url = url.replace('{numeroPoliza}', request.poliza)
       axios.get(url, 
       {
@@ -34,7 +35,7 @@ export default {
     },
     callApiGetClients ({ commit, dispatch }, request) {
       return new Promise((resolve, reject) => {
-        let url = 'http://xmax-sgd.getsandbox.com/sir-admin/api/v1/afiliaciones/modificaciones/clientes/{cliente}'
+        let url = urls.data().server + '/sir-admin/api/v1/afiliaciones/modificaciones/clientes/{cliente}'
         url = url.replace('{cliente}', request.cliente)
         axios.get(url, 
         {
@@ -58,7 +59,7 @@ export default {
     },
     callApiGetInitialize ({ commit, dispatch }, request) {
       return new Promise((resolve, reject) => {
-        let url = 'http://sir-afiliaciones-2.getsandbox.com/sir-admin/api/v1/afiliaciones/modificaciones/inicializaciones/{numeroPoliza}/usuario/{usuarioLogin}/aplicacion/{codigoAplicacion}'
+        let url = urls.data().server + '/sir-admin/api/v1/afiliaciones/modificaciones/inicializaciones/{numeroPoliza}/usuario/{usuarioLogin}/aplicacion/{codigoAplicacion}'
         url = url.replace('{numeroPoliza}', request.poliza)
         url = url.replace('{usuarioLogin}', request.usuario)
         url = url.replace('{codigoAplicacion}', 'SIR')
@@ -94,7 +95,7 @@ export default {
     },
     callApiGetRevision({ commit, dispatch }, request) {
       return new Promise((resolve, reject) => {
-        let url = 'http://sir-afiliaciones-2.getsandbox.com/sir-admin/api/v1/afiliaciones/modificaciones/revisiones/inicializaciones/{codigoAfiliacion}'
+        let url = urls.data().server + '/sir-admin/api/v1/afiliaciones/modificaciones/revisiones/inicializaciones/{codigoAfiliacion}'
         url = url.replace('{codigoAfiliacion}', request.afiliacion)
         axios.get(url, 
         {

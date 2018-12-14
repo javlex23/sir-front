@@ -26,11 +26,11 @@
                         b-input-group-append
                             b-btn(size = "sm" :disabled="!filter" @click="filter = ''") Limpiar
             b-table(stacked = "md" striped hover :fields = "fields" :items = "items" :filter="filter" caption-top).is-table
-                template(slot = "estado" slot-scope = "data")
-                    b-form-checkbox(@click.stop = "" :checked = "data.item.estado" :key ="data.item.codigo" :value = "data.item.estado" 
-                                    @change = "changeState(data.item.codigo, data.item.bin, data.item.descripcion, data.item.estado)")
+                template(slot = "activo" slot-scope = "data")
+                    b-form-checkbox(@click.stop = "" :checked = "data.item.activo" :key ="data.item.codigo"  
+                                    @change = "changeState(data.item.codigo, data.item.bin, data.item.descripcion, data.item.activo)")
                 //template(slot = "acciones" slot-scope = "data")
-                    b-button(size = "sm" variant = "secondary" class = "mr-2" @click = "editar(data.item.bin, data.item.descripcion, data.item.estado)") &nbsp;&nbsp;&nbsp;&nbsp;Editar&nbsp;&nbsp;&nbsp;&nbsp;    
+                    b-button(size = "sm" variant = "secondary" class = "mr-2" @click = "editar(data.item.bin, data.item.descripcion, data.item.activo)") &nbsp;&nbsp;&nbsp;&nbsp;Editar&nbsp;&nbsp;&nbsp;&nbsp;    
             b-row
                 b-col(sm = "6" md = "6" lg = "6" xs = "12")
                     b-pagination
@@ -45,7 +45,7 @@
                 b-row(v-show = "!panel")
                     b-col(sm = "2" md = "2" lg = "2" xs = "12" class="my-1").is-text-right
                         label Emisor:
-                    b-col(sm = "4" md = "4" lg = "4" xs = "12" class="my-1")
+                    b-col(sm = "5" md = "5" lg = "5" xs = "12" class="my-1")
                         b-input-group(size = "sm")
                             b-form-select(v-model = "emisorform" :options = "listEmisores" size="sm" )
                                 option(:value = "null") Seleccione emisor
@@ -58,13 +58,13 @@
                 b-row(v-show = "panel")
                     b-col(sm = "2" md = "2" lg = "2" xs = "12" class = "my-1").is-text-right
                         label Emisor:
-                    b-col(sm = "9" md = "9" lg = "9" xs = "12" class = "my-1")
+                    b-col(sm = "5" md = "5" lg = "5" xs = "12" class = "my-1")
                         b-input-group(size = "sm")
                             b-form-input(size = "sm" v-model = "cemisor" placeholder = "Ingrese nuevo emisor a relacionar al operador")
                 b-row
                     b-col(sm = "2" md = "2" lg = "2" xs = "12" class="my-1").is-text-right
                         label Bin:
-                    b-col(sm = "4" md = "4" lg = "4" xs = "12" class="my-1")
+                    b-col(sm = "5" md = "5" lg = "5" xs = "12" class="my-1")
                         b-form-input(size = "sm" v-model = "bin")
                 b-row
                     b-col(sm = "2" md = "2" lg = "2" xs = "12" class="my-1").is-text-right
@@ -122,7 +122,7 @@ export default {
                     }
                 },
                 {
-                    key: 'estado',
+                    key: 'activo',
                     label: 'Activo',
                     tdClass: (value, key, item) => {
                         return 'is-text-table-center'
@@ -153,8 +153,11 @@ export default {
             req.usuario = this.matricula
             this.callApiGetInicializaBin(req).then((res) => {
                 if(res.data.codigoRespuesta == '01'){
+                    console.log('UPDATE')
                     this.data = res.data.operadores
                     this.loadOperadores()
+                    this.loadRefreshEmisores(this.operador)
+                    this.loadData(this.emisor)
                 }
             })
             .catch(err => { console.log(err) })
@@ -166,7 +169,7 @@ export default {
             })
             this.listOperadoras = infoComboOperador
         },
-        loadEmisores(value){
+        loadRefreshEmisores(value){
             let infoComboEmisor = []
             if(value != null){
                 this.data.filter(obj => obj.codigo == value)[0].emisores.forEach(function (obj) {
@@ -174,6 +177,9 @@ export default {
                 })
             }
             this.listEmisores = infoComboEmisor
+        },
+        loadEmisores(value){
+            this.loadRefreshEmisores(value)
             this.emisor = null
             this.operador = value
             this.items = []
@@ -184,6 +190,7 @@ export default {
                 infoDataBines = this.data.filter(obj => obj.codigo == this.operador)[0].emisores.filter(obj => obj.codigo == value)[0].bines
             }
             this.items = infoDataBines
+            console.log(this.items)
         },
         loadBines(value){
             this.loadData(value)
@@ -209,7 +216,7 @@ export default {
                 this.bin = ''
                 this.descripcion = ''
                 this.estado = false
-                this.emisorform = null
+                this.emisorform = this.emisor
                 this.openEdit()
             }else{
                 alert("Seleccione operador")
@@ -226,64 +233,67 @@ export default {
         },
         changeState(codigo, bin, descripcion, estado){
             let req = {}
-            req.codigo = codigo
+            req.codigoBin = codigo
             req.bin = bin
             req.descripcion = descripcion
-            req.estado = estado
+            req.activo = !estado
+            req.codigoEmisor = this.emisor
             req.token = this.jwt
             req.usuario = this.matricula 
             var txt
             var r = confirm("Seguro de cambiar el estado a este bin?")
-            
+            console.log(req)
             if (r == true) {
                 this.callApiSaveBin(req).then((res) => {
-                    if(res.data.codigoRespuesta != '01'){
-                        //this.items = []
-                        //this.items = infoDataBines
+                    console.log(res)
+                    if(res.data.codigoRespuesta == '01'){
+                        alert('Se cambio el estado correctamente!')
+                    }else{
+                        alert("Hubo un error al guardar los cambios.")
                     }
-                    alert(res.data.mensajeRespuesta)
                 })
-                .catch(err => { console.log(err) })
-            }else{
-                //alert('No hagas nada')
-                //console.log(this)
-                //this.items = []
-                
-                //this.init()    
-                //this.loadBines(null)
-                //console.log(this.items)
-                //this.loadData(null)
-                //this.loadData(2)
-                
-                //this.$parent.reload();   
-                               
+                .catch(err => { 
+                    console.log(err) 
+                    alert(err)
+                })
             }
+            this.init()                
         },
         save(){
             let req = {}
-            req.codigo = null
+            req.codigoBin = null
             req.bin = this.bin
             req.descripcion = this.descripcion
-            req.estado = this.estado
+            req.activo = true
             req.flagEmisor = this.panel
             req.codigoEmisor = this.emisorform
-            req.emisor = this.cemisor
+            req.descripcionEmisor = this.cemisor
+            req.codigoOperador = this.operador
             req.token = this.jwt
             req.usuario = this.matricula 
+            console.log('REQUEST: ')
+            console.log(req)
             if(req.bin == ''){
                 alert('Número de bin es obligatorio')
-            }else if(req.panel && req.cemisor == ''){
+            }else if(req.cemisor == ''){
                 alert('Registro de emisor es obligatorio')
-            }else if(!req.panel && req.emisorform == null){
+            }else if(req.panel && req.emisorform == null){
                 alert('Registro de emisor es obligatorio')
             }else{
                 this.callApiSaveBin(req).then((res) => {
-                    if(res.data.codigoRespuesta != '01'){
+                    if(res.data.codigoRespuesta == '01'){
                         this.init()
+                        alert('Bin guardado correctamente!')
+                        this.$refs.modalEdit.hide()
+                    }else{
+                        alert('No se pudo guardar el bin.')
                     }
-                    alert(res.data.mensajeRespuesta)
+                    
                 })
-                .catch(err => { console.log(err) })
+                .catch(err => { 
+                    console.log(err) 
+                    alert(err)
+                })
             }
         }
     },
